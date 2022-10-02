@@ -14,6 +14,7 @@ keywords = [
 ]
 for keyword in keywords:
     data_combined = []
+    os.system('mkdir {}'.format(keyword[0]))
     keyword_encrypted = quote(keyword[0])
     op = os.popen(
         'curl "https://images-api.nasa.gov/search?q={}&description={}&media_type=image"'.format(
@@ -32,7 +33,7 @@ for keyword in keywords:
             parsed_list.append(data["description"])
         for link in item["links"]:
             parsed_list.append(link["href"])
-            os.system("wget {}".format(link["href"]))
+            os.system("wget -P {} {}".format(keyword[0],link["href"]))
 
         parsed_dataset.append({keyword[0]:parsed_list})
 with open('dataset.json', 'w') as fp:
